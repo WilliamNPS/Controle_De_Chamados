@@ -3,7 +3,7 @@
     $servidor ="localhost";
     $usuario = "root";
     $senha = "";
-    $banco = "computadores";
+    $banco = "chamado";
 
 $conexao = new mysqli ($servidor,$usuario,$senha,$banco);
 if ($conexao -> connect_errno){

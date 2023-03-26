@@ -6,16 +6,16 @@
 
         $id = $_GET['id'];
 
-        $sqlSelect = "SELECT *  FROM dti WHERE id=$id";
+        $sqlSelect = "SELECT *  FROM chamados WHERE id=$id";
 
         $result = $conexao->query($sqlSelect);
 
         if($result->num_rows > 0)
         {
-            $sqlDelete = "DELETE FROM dti WHERE id=$id";
+            $sqlDelete = "DELETE FROM chamados WHERE id=$id";
             $resultDelete = $conexao->query($sqlDelete);
         }
     }
-    header('Location: cadastradocam.php');
+    header('Location: chamados.php');
    
 ?>

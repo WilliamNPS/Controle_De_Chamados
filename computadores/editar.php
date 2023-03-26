@@ -13,36 +13,43 @@ include_once('banco/conexao.php');
 <?php
 
     
-
 include_once('banco/conexao.php');
 
 if(!empty($_GET['id']))
 {
     $id = $_GET['id'];
-    $sqlSelect = "SELECT * FROM dti WHERE id=$id";
+    $sqlSelect = "SELECT * FROM chamados WHERE id=$id";
     $result = $conexao->query($sqlSelect);
     if($result->num_rows > 0)
     {
         while($user_data = mysqli_fetch_assoc($result))
         {
-            $modelo = $user_data['Modelo'];
-            $tombo = $user_data['tombo'];
-            $setor = $user_data['setor'];
-            $responsavel = $user_data['responsavel'];
-            $status = $user_data['status'];
-            $observacao = $user_data['observacao'];
-            $cadastro= $user_data['data_cadastrato'];
+          
+    $nome = $user_data['nome'];
+    $email = $user_data['email'];
+    $celular = $user_data['celular'];
+    $departamento = $user_data['departamento'];
+    $responsavel = $user_data['responsavel'];
+    $prioridade = $user_data['prioridade'];
+    $solicitacao = $user_data['solicitacao'];
+    $descricao = $user_data['descricao'];
+    $data_entrada = $user_data['data_entrada'];
+    $data_saida = $user_data['data_saida'];
+        
+
         }
     }
     else
     {
-        header('Location: cadastradocam.php');
+        header('Location: chamados.php');
     }
 }
 else
 {
-    header('Location: cadastradocam.php');
+    header('Location: chamados.php');
 }
+
+
 ?>
 
 
@@ -51,15 +58,12 @@ else
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" href="estilo/cadastrar.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar CAM</title>
+    <link rel="stylesheet" href="estilo/add.css">
+    <title>Editar Cadastro</title>
+
 </head>
 <body>
     <?php
@@ -68,41 +72,72 @@ else
 
 
 
-    <!------------>
-    <div class="wrapper fadeInDown">
-<div id="formContent">
-  
-<div class="fadeIn first">
+<form action="salvaredit.php" method="post">
+    <h4>
+    Editar
+</h4>
+    <div class="people">
+        <img src="img/people.svg " width="40x" alt="logo ">
+      </div>
+
+
+          
+
+          <div class="duplinha">
+          <input type="text" id="nome" class="fadeIn second" name="nome"  value="<?php echo "$nome" ?>" placeholder="Nome do Solicitante" >
+         
+         <input type="text" id="email" class="fadeIn second" name="email" value="<?php echo "$email" ?>" placeholder="E-mail do Solicitante">
+      
+          </div>
+          <div class="duplinha">
+          <input type="text"  id="celular" minlength="9"maxlength="14" class="fadeIn second" value="<?php echo "$celular" ?>" name="celular" placeholder="Número de telefone do solicitante">
+     
+          <input type="text" id="departamento" class="fadeIn second" name="departamento"value="<?php echo "$departamento" ?>" placeholder="Departamento ou equipe do solicitante">
+          </div>
+          <div class="duplinha">
+          <input type="text" id="responsavel" class="fadeIn second" name="responsavel"value="<?php echo "$responsavel" ?>" placeholder="Suporte responsavel">
+
+          <input type="text" id="descricao" class="fadeIn second" name="descricao" value="<?php echo "$descricao" ?>"placeholder="Descrição da solicitação ou problema">
+           </div>
+          
+           <div class="duplinha2">
+<label for="prioridade">Prioridade:</label>
+<select id="prioridade"  value="<?php echo "$prioridade" ?>" name="prioridade">
+  <option value="alta">Alta</option>
+  <option value="media">Média</option>
+  <option value="baixa">Baixa</option>
+</select>
 
 
 
-
-    <form action="salvaredit.php" method="post">
-    <h4>Editar Cadastro </h4>
-    <input type="text" id="Modelo" class="fadeIn second" name="Modelo" placeholder="Modelo" value="<?php  echo $modelo; ?>" >
-<input type="text" id="tombo" class="fadeIn second" name="tombo" placeholder="Tombo" value="<?php  echo $tombo; ?>">
-<input type="text"  id="setor" class="fadeIn second" name="setor" placeholder="Secretária/Setor " value="<?php  echo $setor; ?>">
-<input type="text" id="responsavel" class="fadeIn second" name="responsavel" placeholder="Usuário/Função" value="<?php  echo $responsavel; ?>">
-
-<input type="radio" id="ok" class="fadeIn second"   name="status" value=" ok "  value="ok"<?php  echo ($status == 'ok') ? 'checked' : '' ; ?> required>
-<label for="ok">Ok</label>
+<label for="solicitacao">solicitação:</label>
+<select id="solicitacao" value="<?php echo "$solicitacao" ?>"name="solicitacao">
+  <option value="problema">Problema</option>
+  <option value="duvida">dúvida</option>
+  <option value="solicitação_de_serviço">solicitação de serviço</option>
+</select>
 
 
-<input type="radio" id="manutencao" name="status" class="fadeIn second" value=" manutencao "<?php  echo ($status == 'manutencao') ? 'checked' : '' ;?> placeholder="Status" required>
-<label for="manutenção">Manutenção</label>
-
-<input type="text" id="observacao"  class="fadeIn second" name="observacao" value="<?php  echo $observacao ?>"placeholder="Obervação">
-<input type="date" id="data_cadastrato" class="fadeIn second"  value="<?php  echo $cadastro ?>"name="data_cadastrato" >
-<input type="hidden" name="id" value= "<?php echo $id ?>">
-<input type="submit" name="update" class="fadeIn third"  id="update" >
-
+<label for="entrada"> Entrada</label>
+<input type="date" id="data_entrada" value="<?php echo "$data_entrada" ?>"class="fadeIn second" name="data_entrada" >
+<label for="entrda"> saida</label>
+<input type="date" id="data_saida"  value="<?php echo "$data_saida" ?>" class="fadeIn second" name="data_saida" >
+      </div>
+      <input type="hidden" name="id" value= "<?php echo $id ?>">
+      <div class="custom-btn btn-3">
+            <span>
+            <input type="submit" name="update" class="botao"  id="update" >
+              </span>
+          </div>
     </form>
 
-  </div>
+<!--- 
+vou deixar aqui vai que um dia eu precise hehehe 
+<input type="radio" id="ok" class="fadeIn second"   name="status" value=" ok "  value="ok"//<?php // echo ($status == 'ok') ? 'checked' : '' ; ?> required>
+<label for="ok">Ok</label>
+<input type="radio" id="manutencao" name="status" class="fadeIn second" value=" manutencao "<?php // echo ($status == 'manutencao') ? 'checked' : '' ;?> placeholder="Status" required>
+<label for="manutenção">Manutenção</label>
 
-
-</div>
-
-
+---->
 </body>
 </html>

@@ -25,7 +25,7 @@ if(isset($_POST['submit']) && !empty($_POST['login']) && !empty($_POST['senha'])
    // echo "caso os dados sejam cadastrado no sistema ele ira para a página com a verificação ";
    $_SESSION['login'] = $email;
    $_SESSION['senha'] = $senha;
-   header('Location:cadastradocam.php');
+   header('Location:chamados.php');
    
   }
 
